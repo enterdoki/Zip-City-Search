@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import Box from "@material-ui/core/Box";
 import "./Zipcode.css";
 import axios from 'axios';
 
@@ -36,7 +35,7 @@ class Zipcode extends Component {
       ],
       requestType: "zip",
       request: "",
-      search: true,
+      fetched: true
       
     }
     this.handleChange = this.handleChange.bind(this);
@@ -50,7 +49,7 @@ class Zipcode extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.setState({request: event.target.value, requestType: "zip" , search: false});
+    this.setState({request: event.target.value, requestType: "zip"});
     this.fetchLocationData();
   }
   
@@ -71,9 +70,14 @@ class Zipcode extends Component {
         let url = 'http://ctp-zip-api.herokuapp.com/' + this.state.requestType + '/' + this.state.request;
         let { data } = await axios.get(url);
         console.log(data);
-        this.setState({data: data});
+        this.setState({
+            fetched: true,
+            data: data});
       } catch (err) {
         console.log(err);
+        this.setState({
+            fetched:false
+        })
         }
     }
   }
@@ -103,24 +107,25 @@ class Zipcode extends Component {
                 >
                     Submit
                 </Button>
-            <div>
-           {!this.state.search  &&  
+            
+           {this.state.fetched  ?(  
              <div>
                 <ul>
                 {data.map(obj => {
-                    return <ZipData RecordNumber={obj.RecordNumber} 
+                    return <li><ZipData RecordNumber={obj.RecordNumber} 
                                     City={obj.City}
                                     State={obj.State}
                                     Lat={obj.Lat}
                                     Long={obj.Long}
                                     EstimatedPopulation={obj.EstimatedPopulation}
-                                    TotalWages={obj.TotalWages} />
+                                    TotalWages={obj.TotalWages} /></li>
                 })}
                 </ul>
             </div>
-        }
-         </div></div>
+           ):(
         
+         <div></div>)}
+        </div>
         );
     }
 }
@@ -128,13 +133,11 @@ class Zipcode extends Component {
 const ZipData = props => {
   return (
       <div className ="Section">
-      <li><strong>{props.City}</strong><br/><br/></li>    
-      <li>State:{props.State}<br/><br/></li>
-      <li>Location: ({props.Lat}, {props.Long})<br/><br/></li>
-      <li>Population (estimated): {props.EstimatedPopulation}<br></br></li>
-      <li>Total Wages: {props.TotalWages}<br/><br/></li>
-      
-   
+      <u><strong>{props.City}</strong></u><br></br>
+      State: {props.State}<br></br>
+      Location: ({props.Lat}, {props.Long})<br></br>
+      Population (estimated): {props.EstimatedPopulation}<br></br>
+      Total Wages: {props.TotalWages}<br></br>
     </div>
   );
 }

@@ -10,12 +10,17 @@
 
 li {
     display: inline;
+    font: 200 17px/1.5 Helvetica, Verdana, sans-serif;
+    border-bottom: 1px solid #ccc;
+    
     
 }
 
 .Section {
     float: left;
     padding-left: 75px;
+    
+    
 }
 
 
