@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Box from "@material-ui/core/Box";
 import "./Zipcode.css";
 import axios from 'axios';
 
@@ -48,9 +49,8 @@ class Zipcode extends Component {
   } 
 
   handleSubmit = event => {
-    console.log(event.target.id);
     event.preventDefault();
-    this.setState({request: event.target.value, requestType: event.target.getAttribute('id') , search: false});
+    this.setState({request: event.target.value, requestType: "zip" , search: false});
     this.fetchLocationData();
   }
   
@@ -58,13 +58,17 @@ class Zipcode extends Component {
       this.fetchLocationData();
   }
 
+  onEnter = event => {
+    if(event.key === "Enter") {
+        event.preventDefault();
+        this.handleSubmit(event);
+    }
+  }
+
   async fetchLocationData() {
     if (this.state.requestType) {
       try {
         let url = 'http://ctp-zip-api.herokuapp.com/' + this.state.requestType + '/' + this.state.request;
-        console.log(this.state.requestType);
-        console.log(this.state.request);
-        console.log(url);
         let { data } = await axios.get(url);
         console.log(data);
         this.setState({data: data});
@@ -86,6 +90,8 @@ class Zipcode extends Component {
                     margin="normal"
                     variant="outlined"
                     onChange={this.handleChange}
+                    onKeyDown={this.onEnter}
+                    
                 />
             </div>
             
@@ -93,12 +99,11 @@ class Zipcode extends Component {
                     variant="outlined"
                     size="large"
                     color="primary"
-                    id="zip"
                     onClick={this.handleSubmit}
                 >
                     Submit
                 </Button>
-                <div className = "Section">
+            <div>
            {!this.state.search  &&  
              <div>
                 <ul>
@@ -114,27 +119,22 @@ class Zipcode extends Component {
                 </ul>
             </div>
         }
-         </div> 
-          </div>
-          
-          
-         
-
-         
-      // 
-  
-  );
-}
+         </div></div>
+        
+        );
+    }
 }
 
 const ZipData = props => {
   return (
       <div className ="Section">
-    <li key={props.RecordNumber}>
-      <div>
-        <strong>{props.City}</strong> <br />State: {props.State}, Location: ({props.Lat}, {props.Long}), Population (estimated): {props.EstimatedPopulation}, Total Wages: {props.TotalWages}
-      </div>
-    </li>
+      <li><strong>{props.City}</strong><br/><br/></li>    
+      <li>State:{props.State}<br/><br/></li>
+      <li>Location: ({props.Lat}, {props.Long})<br/><br/></li>
+      <li>Population (estimated): {props.EstimatedPopulation}<br></br></li>
+      <li>Total Wages: {props.TotalWages}<br/><br/></li>
+      
+   
     </div>
   );
 }

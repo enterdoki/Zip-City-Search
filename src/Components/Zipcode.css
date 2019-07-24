@@ -8,3 +8,14 @@
     text-align: center;
 }
 
+li {
+    display: inline;
+    
+}
+
+.Section {
+    float: left;
+    padding-left: 75px;
+}
+
+
