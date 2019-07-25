@@ -1,9 +1,10 @@
 .ZipCode {
-    
+    height: 55vh;
     text-align: center;
+    
 }
 
-.Information {
+.information {
     margin: auto;
     text-align: center;
 }
@@ -16,11 +17,9 @@ li {
     
 }
 
-.Section {
+.section {
     float: left;
-    padding-left: 75px;
-    
-    
+    padding-left: 40px;
 }
 
 

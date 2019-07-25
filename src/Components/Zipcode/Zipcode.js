@@ -86,7 +86,7 @@ class Zipcode extends Component {
       const data = this.state.data;
       return (
           <div className = "ZipCode">
-            <div className = "Information">
+            <div className = "information">
                 <TextField
                     label="Enter Zipcode"
                     placeholder="10065"
@@ -132,7 +132,7 @@ class Zipcode extends Component {
 
 const ZipData = props => {
   return (
-      <div className ="Section">
+      <div className ="section">
       <u><strong>{props.City}</strong></u><br></br>
       State: {props.State}<br></br>
       Location: ({props.Lat}, {props.Long})<br></br>
