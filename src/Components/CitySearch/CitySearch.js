@@ -38,11 +38,13 @@ class CitySearch extends Component {
     componentDidMount() {
         this.fetchZipCode();
     }
-
+    
     async fetchZipCode() {
         if (this.state.requestType) {
           try {
-            let url = 'http://ctp-zip-api.herokuapp.com/' + this.state.requestType + '/' + this.state.request;
+            let input = this.state.request.toUpperCase();
+            console.log(input);
+            let url = 'http://ctp-zip-api.herokuapp.com/' + this.state.requestType + '/' + input;
             let { data } = await axios.get(url);
             console.log(data);
             this.setState({
@@ -58,20 +60,23 @@ class CitySearch extends Component {
       }
     render() {
         const data = this.state.data;
+        let zipcodes = data.map((zip, index) =>
+        <ZipData data = {zip} key = {index} />
+        );
         return (
             <div className = "City">
-            <div className = "Information">
-                <TextField
-                    label="Enter City"
-                    placeholder="SPRINGFIELD"
-                    className="TextField"
-                    margin="normal"
-                    variant="outlined"
-                    onChange={this.handleChange}
-                    onKeyDown={this.onEnter}
-                    
-                />
-            </div>
+                <div className = "Information">
+                    <TextField
+                        label="Enter City"
+                        placeholder="SPRINGFIELD"
+                        className="TextField"
+                        margin="normal"
+                        variant="outlined"
+                        onChange={this.handleChange}
+                        onKeyDown={this.onEnter}
+                        
+                    />
+                </div>
             
                 <Button
                     variant="outlined"
@@ -81,9 +86,25 @@ class CitySearch extends Component {
                 >
                     Submit
                 </Button>
-                </div>
+                {this.state.fetched  ?(  
+             <div>
+                <div className="zip-container">{zipcodes}</div>
+                
+            </div>
+           ):(
+        
+         <div></div>)}
+            </div>
         );
     }
 }
+
+const ZipData = props => {
+    return (
+        <div className="zip-data">
+            <div>{props.data}</div>
+        </div>
+    );
+  }
 
 export default CitySearch;

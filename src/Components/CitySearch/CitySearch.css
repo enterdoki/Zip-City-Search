@@ -1,0 +1,14 @@
+.zip-data {
+    display: grid;
+    grid-template-rows: auto auto;
+    border-style: solid;
+    border-color: cornflowerblue;
+    width: 20%;
+    margin: 1em;
+    font: 200 17px/1.5 Helvetica, Verdana, sans-serif;
+    float: left;
+}
+
+.zip-container {
+    text-align: center;
+}
